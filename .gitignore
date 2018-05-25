@@ -1,0 +1,14 @@
+.idea/
+.gradle/
+.settings/
+build/
+/captures
+*.iml
+*.project
+*.classpath
+local.properties
+.DS_Store
+.externalNativeBuild
+publish.cmd
+publish.bat
+publish
