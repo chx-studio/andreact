@@ -1,13 +1,16 @@
 package chx.studio.andreact
 
 import android.content.Context
+import android.util.DisplayMetrics
 import android.view.View
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-open class Andreact {
+object Andreact {
     private var refreshRate = 16L
+    internal var displayMetrics = DisplayMetrics()
+    internal var designWidth = 750
 
     private val buildContext by lazy {
         BuildContext().apply {
@@ -19,12 +22,11 @@ open class Andreact {
     }
 
     fun render(context: Context, widget: Widget): View {
+        displayMetrics = context.resources.displayMetrics
         return widget.createElement().createView(context)
     }
 
     fun update(component: Component) {
         component.updateState(buildContext)
     }
-
-    companion object : Andreact()
 }

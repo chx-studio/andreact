@@ -1,24 +1,28 @@
 package chx.studio.andreact.view
 
 import android.content.Context
-import android.widget.FrameLayout
 import chx.studio.andreact.Element
 import chx.studio.andreact.Widget
 import chx.studio.andreact.runOnUiThread
 
-open class Container : View<FrameLayout>() {
+abstract class ViewGroup<V : android.view.ViewGroup> : View<V>() {
     private lateinit var element: Element
-    var children = mutableListOf<Widget>()
+    private var children = mutableListOf<Widget>()
+    private var childElements = mutableListOf<Element>()
 
     fun children(vararg widgets: Widget) {
         children.addAll(widgets)
     }
 
+    fun children(widgets: Collection<Widget>) {
+        children.addAll(widgets)
+    }
+
     override fun createElement(): Element {
-        return object : Element(this@Container) {
+        return object : Element(this@ViewGroup) {
             override fun createView(context: Context): android.view.View {
                 element = this
-                view = this@Container.createView(context)
+                view = this@ViewGroup.createView(context)
                 bindView()
                 return view
             }
@@ -26,7 +30,7 @@ open class Container : View<FrameLayout>() {
             override fun performRebuild() {
                 runOnUiThread {
                     @Suppress("UNCHECKED_CAST")
-                    (widget as? Container)?.let { newWidget ->
+                    (widget as? chx.studio.andreact.view.ViewGroup<V>)?.let { newWidget ->
                         newWidget.childElements = childElements
                         newWidget.view = view
                         newWidget.bindView()
@@ -35,10 +39,6 @@ open class Container : View<FrameLayout>() {
             }
         }
     }
-
-    var childElements = mutableListOf<Element>()
-
-    override fun createView(context: Context) = FrameLayout(context)
 
     override fun bindView() {
         super.bindView()

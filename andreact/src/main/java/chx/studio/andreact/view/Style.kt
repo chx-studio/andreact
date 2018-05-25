@@ -1,6 +1,6 @@
 package chx.studio.andreact.view
 
-import android.view.ViewGroup
+import android.view.ViewGroup as AndroidViewGroup
 
 interface Style<V : android.view.View> {
     var width: Int
@@ -31,10 +31,10 @@ interface Style<V : android.view.View> {
     fun bindView() {
         view.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
         view.setBackgroundColor(backgroundColor)
-        view.layoutParams = (view.layoutParams ?: ViewGroup.MarginLayoutParams(0, 0)).also {
+        view.layoutParams = (view.layoutParams ?: AndroidViewGroup.MarginLayoutParams(0, 0)).also {
             it.width = width
             it.height = height
-            (it as? ViewGroup.MarginLayoutParams)?.setMargins(marginLeft, marginTop, marginRight, marginBottom)
+            (it as? AndroidViewGroup.MarginLayoutParams)?.setMargins(marginLeft, marginTop, marginRight, marginBottom)
         }
     }
 
