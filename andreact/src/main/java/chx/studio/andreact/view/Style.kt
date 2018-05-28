@@ -1,5 +1,7 @@
 package chx.studio.andreact.view
 
+import android.graphics.drawable.Drawable
+import com.google.android.flexbox.FlexboxLayout
 import android.view.ViewGroup as AndroidViewGroup
 
 interface Style<V : android.view.View> {
@@ -13,15 +15,12 @@ interface Style<V : android.view.View> {
     var marginRight: Int
     var marginTop: Int
     var marginBottom: Int
-    var backgroundColor: Int
-    var borderStyle: Int
-    var borderWidth: Int
-    var borderColor: Int
-    var borderRadius: Int
-    var flex: Int
-    var flexWrap: Int
-    var alignSelf: Int
+    var background: Drawable?
     var position: Int
+    var order: Int
+    var flexGrow: Number
+    var flexShrink: Number
+    var flexBasisPercent: Number
     var left: Int
     var right: Int
     var top: Int
@@ -30,11 +29,17 @@ interface Style<V : android.view.View> {
 
     fun bindView() {
         view.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
-        view.setBackgroundColor(backgroundColor)
-        view.layoutParams = (view.layoutParams ?: AndroidViewGroup.MarginLayoutParams(0, 0)).also {
+        view.background = background
+        view.layoutParams = (view.layoutParams ?: FlexboxLayout.LayoutParams(0, 0)).also {
             it.width = width
             it.height = height
-            (it as? AndroidViewGroup.MarginLayoutParams)?.setMargins(marginLeft, marginTop, marginRight, marginBottom)
+            (it as? FlexboxLayout.LayoutParams)?.let { params ->
+                params.setMargins(marginLeft, marginTop, marginRight, marginBottom)
+                params.order = order
+                params.flexGrow = flexGrow.toFloat()
+                params.flexShrink = flexShrink.toFloat()
+                params.flexBasisPercent = flexBasisPercent.toFloat()
+            }
         }
     }
 

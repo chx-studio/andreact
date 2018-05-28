@@ -1,6 +1,7 @@
 package chx.studio.andreact.view
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.ViewGroup
 import chx.studio.andreact.Element
 import chx.studio.andreact.Widget
@@ -17,15 +18,12 @@ abstract class View<V : android.view.View> : Widget(), Style<V> {
     override var marginRight: Int = 0
     override var marginTop: Int = 0
     override var marginBottom: Int = 0
-    override var backgroundColor: Int = 0
-    override var borderStyle: Int = 0
-    override var borderWidth: Int = 0
-    override var borderColor: Int = 0
-    override var borderRadius: Int = 0
-    override var flex: Int = 0
-    override var flexWrap: Int = 0
-    override var alignSelf: Int = 0
+    override var background: Drawable? = null
     override var position: Int = 0
+    override var order: Int = 0
+    override var flexGrow: Number = 0
+    override var flexShrink: Number = 1
+    override var flexBasisPercent: Number = -1
     override var left: Int = 0
     override var right: Int = 0
     override var top: Int = 0

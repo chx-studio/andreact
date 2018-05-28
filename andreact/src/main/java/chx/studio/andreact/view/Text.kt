@@ -17,7 +17,6 @@ open class Text(var text: String = "") : View<TextView>() {
 
     override fun bindView() {
         super.bindView()
-        Log.e("@", "${this::class.java.simpleName}.bindView(text=$text)")
         view.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat())
         view.setTextColor(textColor)
         view.text = text

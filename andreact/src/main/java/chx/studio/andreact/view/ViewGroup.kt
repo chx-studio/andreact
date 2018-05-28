@@ -99,20 +99,32 @@ abstract class ViewGroup<V : android.view.ViewGroup> : View<V>() {
 
         val childView = childElement.createView(view.context)
         view.addView(childView, index)
+
+        onAddChildView(childView, index)
     }
 
-    private fun moveChild(prevIndex: Int, nextIndex: Int) {
-        val childView = view.getChildAt(prevIndex)
-        view.removeViewAt(prevIndex)
-        view.addView(childView, nextIndex)
+    private fun moveChild(fromIndex: Int, toIndex: Int) {
+        val childView = view.getChildAt(fromIndex)
+        view.removeViewAt(fromIndex)
+        view.addView(childView, toIndex)
 
-        val childElement = childElements[prevIndex]
-        childElements.removeAt(prevIndex)
-        childElements.add(nextIndex, childElement)
+        val childElement = childElements[fromIndex]
+        childElements.removeAt(fromIndex)
+        childElements.add(toIndex, childElement)
+
+        onMoveChildView(childView, fromIndex, toIndex)
     }
 
     private fun removeChild(index: Int) {
+        val childView = view.getChildAt(index)
         view.removeViewAt(index)
         childElements.removeAt(index)
+        onRemoveChildView(childView, index)
     }
+
+    open fun onAddChildView(view: android.view.View, index: Int) {}
+
+    open fun onRemoveChildView(view: android.view.View, index: Int) {}
+
+    open fun onMoveChildView(view: android.view.View, fromIndex: Int, toIndex: Int) {}
 }

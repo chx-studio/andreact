@@ -1,11 +1,13 @@
 package chx.studio.andreact.sample
 
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import chx.studio.andreact.Andreact
 import chx.studio.andreact.Component
 import chx.studio.andreact.Widget
 import chx.studio.andreact.view.*
+import com.google.android.flexbox.JustifyContent
 
 class App : Component() {
     var count = 0
@@ -17,20 +19,22 @@ class App : Component() {
 
     override fun build(): Widget {
         Log.e("@", "App.build")
-        return Column().apply {
+        return Flexbox().apply {
+            justifyContent = JustifyContent.CENTER
+            height = View.MATCH_PARENT
             children(
                 Text(count.toString()).apply {
+                    flexGrow = 1
                     height = 150.dp
-                    marginTop = 100.rp
                     padding(32.dp)
-                    backgroundColor = Color.parseColor("#00838f")
+                    background = ColorDrawable(Color.parseColor("#00838f"))
                     textSize = 80.sp
                     textColor = Color.WHITE
                 },
                 Button("BUTTON").apply {
-                    padding(64)
                     width = 750.rp
-                    backgroundColor = Color.parseColor("#2196f3")
+                    padding(64)
+                    background = ColorDrawable(Color.parseColor("#2196f3"))
                     textColor = Color.WHITE
                     textSize = 24.sp
                     onClick = updateCount
