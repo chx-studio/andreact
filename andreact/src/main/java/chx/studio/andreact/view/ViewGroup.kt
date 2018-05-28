@@ -11,10 +11,12 @@ abstract class ViewGroup<V : android.view.ViewGroup> : View<V>() {
     private var childElements = mutableListOf<Element>()
 
     fun children(vararg widgets: Widget) {
+        children.clear()
         children.addAll(widgets)
     }
 
     fun children(widgets: Collection<Widget>) {
+        children.clear()
         children.addAll(widgets)
     }
 
@@ -46,58 +48,71 @@ abstract class ViewGroup<V : android.view.ViewGroup> : View<V>() {
         addOrMoveExistingElements()
     }
 
+    private fun Widget.keyOrIndex(index: Int): Int {
+        return if (key > 0) key else index
+    }
+
     private fun removeNonExistingElements() {
-        val newChildMap = mutableMapOf<Int, Widget>().also { map ->
+        if (childElements.isEmpty()) return
+        val nextChildMap = mutableMapOf<Int, Widget>().also { map ->
             children.forEachIndexed { index, widget ->
-                var key = widget.key
-                if (key <= 0) key = index
-                map[key] = widget
+                map[widget.keyOrIndex(index)] = widget
             }
         }
         childElements.forEachIndexed { prevIndex, prevChildElement ->
-            var prevKey = prevChildElement.widget.key
-            if (prevKey <= 0) prevKey = prevIndex
-            val specNewChild = newChildMap[prevKey]
-            val isOldChildWidgetStillExists = specNewChild != null
+            val specNextChild = nextChildMap[prevChildElement.widget.keyOrIndex(prevIndex)]
+            val isOldChildWidgetStillExists = specNextChild != null
             if (!isOldChildWidgetStillExists) {
-                view.removeViewAt(prevIndex)
-                childElements.removeAt(prevIndex)
+                removeChild(prevIndex)
             }
         }
     }
 
     private fun addOrMoveExistingElements() {
+        if (children.isEmpty()) return
         val prevChildElementMap = mutableMapOf<Int, Element>().also { map ->
             childElements.forEachIndexed { index, element ->
-                var key = element.widget.key
-                if (key <= 0) key = index
-                map[key] = element
+                map[element.widget.keyOrIndex(index)] = element
             }
         }
-        children.forEachIndexed { newIndex, newChildWidget ->
-            var newKey = newChildWidget.key
-            if (newKey <= 0) newKey = newIndex
-            val specPrevElement = prevChildElementMap[newKey]
+        children.forEachIndexed { nextIndex, nextChildWidget ->
+            val specPrevElement = prevChildElementMap[nextChildWidget.keyOrIndex(nextIndex)]
             val isNewChildWidgetAlreadyExists = specPrevElement != null
             if (isNewChildWidgetAlreadyExists) {
                 val prevIndex = childElements.indexOf(specPrevElement)
-                val needsMoving = prevIndex != newIndex
+                val needsMoving = prevIndex != nextIndex
                 if (needsMoving) {
-                    val childView = view.getChildAt(prevIndex)
-                    view.removeViewAt(prevIndex)
-                    view.addView(childView, newIndex)
-                    childElements.removeAt(prevIndex)
-                    childElements.add(newIndex, specPrevElement!!)
+                    moveChild(prevIndex, nextIndex)
                 }
-                specPrevElement!!.widget = newChildWidget
+                specPrevElement!!.widget = nextChildWidget
                 specPrevElement.performRebuild()
             } else {
-                val newElement = newChildWidget.createElement()
-                newElement.depth = this.element.depth + 1
-                val childView = newElement.createView(view.context)
-                view.addView(childView, newIndex)
-                childElements.add(newIndex, newElement)
+                addChild(nextIndex, nextChildWidget)
             }
         }
+    }
+
+    private fun addChild(index: Int, childWidget: Widget) {
+        val childElement = childWidget.createElement()
+        childElement.depth = this.element.depth + 1
+        childElements.add(index, childElement)
+
+        val childView = childElement.createView(view.context)
+        view.addView(childView, index)
+    }
+
+    private fun moveChild(prevIndex: Int, nextIndex: Int) {
+        val childView = view.getChildAt(prevIndex)
+        view.removeViewAt(prevIndex)
+        view.addView(childView, nextIndex)
+
+        val childElement = childElements[prevIndex]
+        childElements.removeAt(prevIndex)
+        childElements.add(nextIndex, childElement)
+    }
+
+    private fun removeChild(index: Int) {
+        view.removeViewAt(index)
+        childElements.removeAt(index)
     }
 }
