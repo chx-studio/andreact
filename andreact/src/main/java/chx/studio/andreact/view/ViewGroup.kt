@@ -48,13 +48,13 @@ abstract class ViewGroup<V : android.view.ViewGroup> : View<V>() {
         addOrMoveExistingElements()
     }
 
-    private fun Widget.keyOrIndex(index: Int): Int {
-        return if (key > 0) key else index
+    private fun Widget.keyOrIndex(index: Int): String {
+        return if (key.isNotEmpty()) key else index.toString()
     }
 
     private fun removeNonExistingElements() {
         if (childElements.isEmpty()) return
-        val nextChildMap = mutableMapOf<Int, Widget>().also { map ->
+        val nextChildMap = mutableMapOf<String, Widget>().also { map ->
             children.forEachIndexed { index, widget ->
                 map[widget.keyOrIndex(index)] = widget
             }
@@ -70,7 +70,7 @@ abstract class ViewGroup<V : android.view.ViewGroup> : View<V>() {
 
     private fun addOrMoveExistingElements() {
         if (children.isEmpty()) return
-        val prevChildElementMap = mutableMapOf<Int, Element>().also { map ->
+        val prevChildElementMap = mutableMapOf<String, Element>().also { map ->
             childElements.forEachIndexed { index, element ->
                 map[element.widget.keyOrIndex(index)] = element
             }

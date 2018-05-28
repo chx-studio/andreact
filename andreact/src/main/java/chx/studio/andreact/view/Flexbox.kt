@@ -2,6 +2,7 @@ package chx.studio.andreact.view
 
 import android.content.Context
 import android.view.View
+import chx.studio.andreact.Widget
 import com.google.android.flexbox.*
 
 class Flexbox : ViewGroup<FlexboxLayout>() {
@@ -23,4 +24,5 @@ class Flexbox : ViewGroup<FlexboxLayout>() {
         view.alignItems = alignItems
         view.alignContent = alignContent
     }
+
 }

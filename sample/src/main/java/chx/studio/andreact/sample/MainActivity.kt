@@ -9,12 +9,6 @@ import chx.studio.andreact.Widget
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(App())
-    }
-
-    private fun setContentView(widget: Widget) {
-        val layout = FrameLayout(this)
-        layout.addView(Andreact.render(this, widget))
-        setContentView(layout)
+        setContentView(Andreact.render(this, App()))
     }
 }

@@ -1,7 +1,7 @@
 package chx.studio.andreact
 
 abstract class Widget {
-    var key: Int = 0
+    var key: String = ""
 
     abstract fun createElement(): Element
 
@@ -14,8 +14,6 @@ abstract class Widget {
     open fun didUpdate() {}
 
     companion object {
-        private var nextRootIndex: Int = 0
-
         fun shouldUpdate(prevWidget: Widget, nextWidget: Widget): Boolean {
             return prevWidget::class == nextWidget::class && prevWidget.key == nextWidget.key
         }

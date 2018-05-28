@@ -16,15 +16,11 @@ interface Style<V : android.view.View> {
     var marginTop: Int
     var marginBottom: Int
     var background: Drawable?
-    var position: Int
     var order: Int
     var flexGrow: Number
     var flexShrink: Number
     var flexBasisPercent: Number
-    var left: Int
-    var right: Int
-    var top: Int
-    var bottom: Int
+    var absolute: Boolean
     var view: V
 
     fun bindView() {
