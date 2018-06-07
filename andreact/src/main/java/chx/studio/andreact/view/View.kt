@@ -23,7 +23,6 @@ abstract class View<V : android.view.View> : Widget(), Style<V> {
     override var flexGrow: Number = 0
     override var flexShrink: Number = 1
     override var flexBasisPercent: Number = -1
-    override var absolute: Boolean = false
     override lateinit var view: V
 
     override fun createElement(): Element {

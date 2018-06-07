@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 object Andreact {
     private var refreshRate = 16L
     internal var displayMetrics = DisplayMetrics()
-    internal var designWidth = 750
+    var designWidth = 750
     private var rootViewRef = WeakReference<FrameLayout>(null)
 
     private val buildContext by lazy {

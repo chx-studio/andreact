@@ -7,18 +7,8 @@ import chx.studio.andreact.runOnUiThread
 
 abstract class ViewGroup<V : android.view.ViewGroup> : View<V>() {
     private lateinit var element: Element
-    private var children = mutableListOf<Widget>()
+    var children = mutableListOf<Widget>()
     private var childElements = mutableListOf<Element>()
-
-    fun children(vararg widgets: Widget) {
-        children.clear()
-        children.addAll(widgets)
-    }
-
-    fun children(widgets: Collection<Widget>) {
-        children.clear()
-        children.addAll(widgets)
-    }
 
     override fun createElement(): Element {
         return object : Element(this@ViewGroup) {

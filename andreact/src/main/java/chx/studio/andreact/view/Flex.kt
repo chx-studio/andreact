@@ -5,7 +5,7 @@ import android.view.View
 import chx.studio.andreact.Widget
 import com.google.android.flexbox.*
 
-class Flexbox : ViewGroup<FlexboxLayout>() {
+class Flex : ViewGroup<FlexboxLayout>() {
     var flexDirection = FlexDirection.COLUMN
     var flexWrap = FlexWrap.NOWRAP
     var justifyContent = JustifyContent.FLEX_START

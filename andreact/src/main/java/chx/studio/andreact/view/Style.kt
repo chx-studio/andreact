@@ -20,7 +20,6 @@ interface Style<V : android.view.View> {
     var flexGrow: Number
     var flexShrink: Number
     var flexBasisPercent: Number
-    var absolute: Boolean
     var view: V
 
     fun bindView() {

@@ -12,7 +12,6 @@ abstract class Element(open var widget: Widget) {
 
     fun rebuild() {
         if (!dirty) return
-        Log.e("@", "${this::class.java.name}.rebuild")
         performRebuild()
         dirty = false
     }

@@ -19,27 +19,26 @@ class App : Component() {
 
     override fun build(): Widget {
         Log.e("@", "App.build")
-        return Flexbox().apply {
+        return flex {
             justifyContent = JustifyContent.CENTER
             height = View.MATCH_PARENT
-            children(
-                Text(count.toString()).apply {
-                    flexGrow = 1
-                    height = 150.dp
-                    padding(32.dp)
-                    background = ColorDrawable(Color.parseColor("#00838f"))
-                    textSize = 80.sp
-                    textColor = Color.WHITE
-                },
-                Button("BUTTON").apply {
-                    width = 750.rp
-                    padding(64)
-                    background = ColorDrawable(Color.parseColor("#2196f3"))
-                    textColor = Color.WHITE
-                    textSize = 24.sp
-                    onClick = updateCount
-                }
-            )
+            text {
+                text = "" + count
+                flexGrow = 1
+                height = 150.dp
+                padding(32.dp)
+                background = ColorDrawable(Color.parseColor("#00838f"))
+                textSize = 80.sp
+                textColor = Color.WHITE
+            }
+            button {
+                text = "BUTTON"
+                width = 750.rp
+                background = ColorDrawable(Color.parseColor("#2196f3"))
+                textColor = Color.WHITE
+                textSize = 24.sp
+                onClick = updateCount
+            }
         }
     }
 }
